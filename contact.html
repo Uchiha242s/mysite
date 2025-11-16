@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="যোগাযোগ - ProCoderBD | ফুল-স্ট্যাক ডেভেলপার, ইউটিউবার" />
+    <meta name="author" content="ProCoderBD" />
+    <title>যোগাযোগ - ProCoderBD</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <!-- AOS + GSAP + Three.js -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #6e07f3;
+            --secondary: #ff6b6b;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gradient: linear-gradient(135deg, #6e07f3, #ff6b6b);
+            --shadow: 0 10px 30px rgba(110, 7, 243, 0.15);
+            --text: #333;
+            --bg: #f8f9fa;
+        }
+        [data-theme="dark"] {
+            --text: #eee;
+            --bg: #111;
+            --dark: #eee;
+            --light: #222;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; transition: background 0.5s ease; }
+
+        /* Three.js Canvas */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(26,26,46,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0; transition: all 0.3s ease; }
+        .navbar.scrolled { padding: 0.8rem 0; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1400px; margin: auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 2.5rem; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 1.1rem; position: relative; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 0; height: 3px; background: var(--gradient); transition: width 0.3s ease; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: #ff6b6b; }
+        .hamburger { display: none; color: white; font-size: 1.8rem; cursor: pointer; }
+        .theme-toggle { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+        /* Hero */
+        .contact-hero { min-height: 100vh; display: flex; align-items: center; padding: 0 2rem; position: relative; overflow: hidden; }
+        .hero-content { max-width: 1400px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; z-index: 1; }
+        .hero-left h1 { font-size: 4.5rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.2; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
+        .hero-left p { font-size: 1.3rem; color: var(--gray); margin-bottom: 2rem; max-width: 500px; }
+        .social-links { display: flex; gap: 1.5rem; }
+        .social-links a { width: 50px; height: 50px; background: var(--gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: var(--shadow); transition: all 0.4s ease; }
+        .social-links a:hover { transform: translateY(-8px) rotate(15deg); }
+
+        /* Contact Form */
+        .contact-form { background: white; padding: 3rem; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        .contact-form::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: var(--gradient); opacity: 0.05; transform: rotate(15deg); }
+        .form-group { margin-bottom: 1.8rem; position: relative; }
+        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 500; color: var(--dark); }
+        .form-group input, .form-group textarea { width: 100%; padding: 1rem 1.2rem; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; transition: all 0.3s ease; background: #f9f9f9; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(110,7,243,0.15); }
+        .form-group textarea { height: 150px; resize: none; }
+        .submit-btn { width: 100%; padding: 1.2rem; background: var(--gradient); color: white; border: none; border-radius: 50px; font-weight: 600; font-size: 1.2rem; cursor: pointer; transition: all 0.5s ease; position: relative; overflow: hidden; }
+        .submit-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(110,7,243,0.3); }
+        .submit-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,0.3); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
+        .submit-btn:active::before { width: 300px; height: 300px; }
+
+        /* Contact Info */
+        .contact-info { padding: 2rem; }
+        .info-item { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; padding: 1.2rem; background: rgba(110,7,243,0.05); border-radius: 15px; transition: all 0.4s ease; }
+        .info-item:hover { background: rgba(110,7,243,0.12); transform: translateX(10px); }
+        .info-icon { width: 60px; height: 60px; background: var(--gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow); }
+        .info-text h3 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+        .info-text p { color: var(--gray); font-size: 0.95rem; }
+
+        /* Map */
+        .map-container { margin-top: 3rem; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.1); height: 400px; }
+
+        /* Voice Input */
+        .voice-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(110,7,243,0.3); transition: all 0.3s ease; }
+        .voice-btn.active { background: var(--secondary); animation: pulse 1.5s infinite; }
+
+        /* Footer */
+        .footer { background: #111; color: #aaa; padding: 3rem 0 1.5rem; text-align: center; }
+        .footer-container { max-width: 1200px; margin: auto; padding: 0 2rem; }
+        .footer-logo { font-size: 2rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-social a { color: #aaa; font-size: 1.6rem; margin: 0 12px; transition: all 0.3s ease; }
+        .footer-social a:hover { color: white; transform: translateY(-6px) rotate(15deg); }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-left h1 { font-size: 3.5rem; }
+            .contact-form, .contact-info { padding: 2rem; }
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links { position: absolute; top: 100%; left: 0; width: 100%; background: var(--dark); flex-direction: column; padding: 1rem 0; display: none; }
+            .nav-links.active { display: flex; }
+            .hero-left h1 { font-size: 2.8rem; }
+        }
+
+        /* Particles */
+        .particle { position: absolute; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; opacity: 0.6; pointer-events: none; }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- Three.js Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">ProCoderBD</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">হোম</a></li>
+                <li><a href="about.html">সম্পর্কে</a></li>
+                <li><a href="projects.html">প্রজেক্টস</a></li>
+                <li><a href="contact.html" class="active">যোগাযোগ</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <div class="hamburger" id="hamburger">Menu</div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="contact-hero">
+        <div class="hero-content">
+            <div class="hero-left" data-aos="fade-right">
+                <h1>যোগাযোগ করুন</h1>
+                <p>আপনার প্রজেক্ট, আইডিয়া বা প্রশ্ন থাকলে এখানে লিখুন। আমি ২৪ ঘণ্টার মধ্যে উত্তর দিব।</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="hero-right" data-aos="fade-left">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label>নাম</label>
+                        <input type="text" id="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label>ইমেইল</label>
+                        <input type="email" id="email" required />
+                    </div>
+                    <div class="form-group">
+                        <label>বিষয়</label>
+                        <input type="text" id="subject" required />
+                    </div>
+                    <div class="form-group">
+                        <label>মেসেজ</label>
+                        <textarea id="message" required></textarea>
+                        <button type="button" class="voice-btn" id="voiceBtn"><i class="fas fa-microphone"></i></button>
+                    </div>
+                    <button type="submit" class="submit-btn">পাঠান</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info -->
+    <section class="contact-info-section">
+        <div class="contact-info">
+            <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                <div class="info-text">
+                    <h3>ইমেইল</h3>
+                    <p>procoderbd@gmail.com</p>
+                </div>
+            </div>
+            <div class="info-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="info-icon"><i class="fas fa-phone"></i></div>
+                <div class="info-text">
+                    <h3>ফোন</h3>
+                    <p>+880 1234567890</p>
+                </div>
+            </div>
+            <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-text">
+                    <h3>ঠিকানা</h3>
+                    <p>ঢাকা, বাংলাদেশ</p>
+                </div>
+            </div>
+        </div>
+        <div class="map-container" data-aos="fade-up">
+            <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">ProCoderBD</div>
+            <p>ওয়েব ডেভেলপমেন্ট এবং শিক্ষার জন্য সেরা প্ল্যাটফর্ম</p>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 ProCoderBD. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1200, once: false });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+
+        // Three.js Background
+        const canvas = document.getElementById('bg-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.z = 5;
+
+        const particles = [];
+        for (let i = 0; i < 150; i++) {
+            const geometry = new THREE.SphereGeometry(0.05, 16, 16);
+            const material = new THREE.MeshBasicMaterial({ color: 0x6e07f3 });
+            const particle = new THREE.Mesh(geometry, material);
+            particle.position.x = Math.random() * 10 - 5;
+            particle.position.y = Math.random() * 10 - 5;
+            particle.position.z = Math.random() * 5 - 2.5;
+            scene.add(particle);
+            particles.push(particle);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.forEach(p => {
+                p.rotation.y += 0.01;
+                p.position.y -= 0.005;
+                if (p.position.y < -5) p.position.y = 5;
+            });
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Voice Recognition
+        const voiceBtn = document.getElementById('voiceBtn');
+        const message = document.getElementById('message');
+        let recognition;
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.lang = 'bn-BD';
+            recognition.continuous = false;
+
+            voiceBtn.addEventListener('click', () => {
+                voiceBtn.classList.toggle('active');
+                if (voiceBtn.classList.contains('active')) {
+                    recognition.start();
+                } else {
+                    recognition.stop();
+                }
+            });
+
+            recognition.onresult = (e) => {
+                message.value += e.results[0][0].transcript + ' ';
+            };
+
+            recognition.onend = () => {
+                voiceBtn.classList.remove('active');
+            };
+        }
+
+        // Form Submit
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('মেসেজ পাঠানো হয়েছে! ধন্যবাদ।');
+        });
+
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

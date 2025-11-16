@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="আমার সম্পর্কে - ProCoderBD | ওয়েব ডেভেলপার, ইউটিউবার, ডিজাইনার" />
+    <meta name="author" content="ProCoderBD" />
+    <title>সম্পর্কে - ProCoderBD</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <!-- AOS + GSAP -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #6e07f3;
+            --secondary: #ff6b6b;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gradient: linear-gradient(135deg, #6e07f3, #ff6b6b);
+            --shadow: 0 10px 30px rgba(110, 7, 243, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--light); color: var(--dark); line-height: 1.7; overflow-x: hidden; }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(26,26,46,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0; transition: all 0.3s ease; }
+        .navbar.scrolled { background: rgba(26,26,46,0.98); padding: 0.8rem 0; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1400px; margin: auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 2.5rem; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 1.1rem; position: relative; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 0; height: 3px; background: var(--gradient); transition: width 0.3s ease; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: #ff6b6b; }
+        .hamburger { display: none; color: white; font-size: 1.8rem; cursor: pointer; }
+
+        /* Hero with Parallax */
+        .about-hero { min-height: 100vh; display: flex; align-items: center; padding: 0 2rem; position: relative; overflow: hidden; }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); z-index: -2; }
+        .floating-shapes { position: absolute; width: 100%; height: 100%; z-index: -1; }
+        .shape { position: absolute; background: var(--gradient); border-radius: 50%; opacity: 0.1; filter: blur(40px); }
+        .shape1 { width: 300px; height: 300px; top: 10%; left: 10%; animation: float1 15s infinite ease-in-out; }
+        .shape2 { width: 200px; height: 200px; top: 60%; right: 15%; animation: float2 18s infinite ease-in-out; }
+        .shape3 { width: 400px; height: 400px; bottom: 10%; left: 50%; animation: float3 20s infinite ease-in-out; }
+        @keyframes float1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(50px, -50px); } }
+        @keyframes float2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 60px); } }
+        @keyframes float3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -70px); } }
+
+        .about-container { max-width: 1400px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+
+        .about-left h1 { font-size: 4.5rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.2; }
+        .about-left h1 span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
+        .about-left .tagline { font-size: 1.6rem; color: var(--gray); margin-bottom: 1.5rem; font-weight: 500; }
+        .about-left p { font-size: 1.2rem; color: #555; margin-bottom: 2rem; max-width: 500px; opacity: 0; transform: translateY(20px); }
+
+        .profile-frame { position: relative; display: inline-block; perspective: 1000px; }
+        .profile-frame img { width: 380px; height: 380px; border-radius: 50%; object-fit: cover; border: 12px solid white; box-shadow: var(--shadow); transition: all 0.6s ease; }
+        .profile-frame:hover img { transform: rotateY(15deg) scale(1.05); }
+        .badge { position: absolute; bottom: 20px; right: -20px; background: var(--secondary); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 5px 15px rgba(255,107,107,0.3); animation: pulse 2s infinite; transform-origin: center; }
+
+        /* Journey with Line Drawing */
+        .journey { padding: 120px 0; background: white; position: relative; }
+        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 4rem; color: var(--dark); position: relative; }
+        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 100px; height: 5px; background: var(--gradient); border-radius: 3px; }
+        .timeline { max-width: 1000px; margin: auto; position: relative; }
+        .timeline::before { content: ''; position: absolute; top: 0; left: 50%; width: 4px; height: 0; background: linear-gradient(to bottom, var(--primary), var(--secondary)); transform: translateX(-50%); transition: height 2s ease-out; }
+        .timeline.drawn::before { height: 100%; }
+        .timeline-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4rem; position: relative; opacity: 0; transform: translateY(50px); }
+        .timeline-item.visible { opacity: 1; transform: translateY(0); transition: all 0.8s ease; }
+        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+        .timeline-content { width: 45%; background: white; padding: 2.2rem; border-radius: 18px; box-shadow: 0 12px 35px rgba(0,0,0,0.1); position: relative; transition: all 0.5s ease; }
+        .timeline-content:hover { transform: translateY(-15px) rotate(2deg); box-shadow: 0 25px 50px rgba(110,7,243,0.2); }
+        .timeline-content h3 { font-size: 1.6rem; margin-bottom: 0.6rem; color: var(--primary); }
+        .timeline-content .date { font-size: 0.95rem; color: var(--secondary); margin-bottom: 1rem; font-weight: 600; }
+        .timeline-dot { position: absolute; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background: white; border: 6px solid var(--gradient); border-radius: 50%; box-shadow: 0 0 0 10px white, 0 0 0 14px #eee; z-index: 1; }
+
+        /* Skills with Progress */
+        .skills-section { padding: 120px 0; background: #f8f9fa; }
+        .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+        .skill-card { background: white; padding: 2rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.5s ease; position: relative; overflow: hidden; }
+        .skill-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--gradient); transform: scaleX(0); transform-origin: left; transition: transform 0.6s ease; }
+        .skill-card:hover::before { transform: scaleX(1); }
+        .skill-card:hover { transform: translateY(-15px) rotate(3deg); }
+        .skill-icon { width: 90px; height: 90px; margin: 0 auto 1.2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.6s ease; }
+        .skill-card:hover .skill-icon { transform: scale(1.2) rotate(360deg); }
+        .skill-card h4 { font-size: 1.3rem; margin-bottom: 0.8rem; color: var(--dark); }
+        .progress-container { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; margin-top: 1rem; }
+        .progress-bar { height: 100%; background: var(--gradient); width: 0; border-radius: 4px; transition: width 1.5s ease; }
+
+        /* CTA with Mouse Parallax */
+        .cta { padding: 100px 0; text-align: center; background: var(--dark); color: white; position: relative; overflow: hidden; }
+        .cta h2 { font-size: 3rem; margin-bottom: 1.5rem; }
+        .cta p { font-size: 1.3rem; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; color: #ddd; }
+        .btn { padding: 16px 36px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.4s ease; font-size: 1.2rem; position: relative; overflow: hidden; }
+        .btn-primary { background: var(--gradient); color: white; box-shadow: var(--shadow); }
+        .btn-primary:hover { transform: translateY(-8px) scale(1.05); box-shadow: 0 20px 40px rgba(110,7,243,0.4); }
+
+        /* Footer */
+        .footer { background: #111; color: #aaa; padding: 3rem 0 1.5rem; text-align: center; }
+        .footer-container { max-width: 1200px; margin: auto; padding: 0 2rem; }
+        .footer-logo { font-size: 2rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-social a { color: #aaa; font-size: 1.6rem; transition: all 0.3s ease; margin: 0 12px; }
+        .footer-social a:hover { color: white; transform: translateY(-6px) rotate(15deg); }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-container, .timeline-item { grid-template-columns: 1fr; flex-direction: column; text-align: center; }
+            .about-left h1 { font-size: 3.5rem; }
+            .profile-frame img { width: 300px; height: 300px; }
+            .timeline::before { left: 30px; }
+            .timeline-item { padding-left: 60px; }
+            .timeline-item:nth-child(even) { flex-direction: column; }
+            .timeline-content { width: 100%; }
+            .timeline-dot { left: 30px; }
+        }
+        /* Skill Icon - No Rotation, Only Pop-up */
+.skill-icon {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 1.2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+/* Hover: Pop-up + Glow (No Rotation) */
+.skill-card:hover .skill-icon {
+    transform: translateY(-10px) scale(1.15);
+    box-shadow: 0 20px 40px rgba(110,7,243,0.25);
+}
+
+/* Skill Logo Style */
+.skill-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: all 0.5s ease;
+}
+
+.skill-card:hover .skill-logo {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.8));
+}
+
+/* Individual Icon Backgrounds */
+.photoshop { background: linear-gradient(135deg, #001d3d, #31A8FF); }
+.illustrator { background: linear-gradient(135deg, #2d0b00, #FF9A00); }
+.python { background: linear-gradient(135deg, #3776AB, #001d3d); }
+.js { background: linear-gradient(135deg, #31A8FF, #323330); }
+.cyber { background: linear-gradient(135deg, #93b0ff, #1B5E20); }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">ProCoderBD</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">হোম</a></li>
+                <li><a href="about.html" class="active">সম্পর্কে</a></li>
+                <li><a href="projects.html">প্রজেক্ট</a></li>
+                <li><a href="contact.html">যোগাযোগ</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">Menu</div>
+        </div>
+    </nav>
+
+    <!-- Hero with Parallax -->
+    <section class="about-hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="floating-shapes">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+            <div class="shape shape3"></div>
+        </div>
+        <div class="about-container">
+            <div class="about-left" data-aos="fade-right">
+                <h1 class="text-reveal">আমি কে? <span>ProCoderBD</span></h1>
+                <p class="tagline">ফুল-স্ট্যাক ডেভেলপার | ইউটিউবার | ডিজাইনার</p>
+                <p class="reveal-text">আমি বাংলাদেশের একজন উৎসাহী ওয়েব ডেভেলপার। গত ৫ বছর ধরে ওয়েব ডেভেলপমেন্ট, UI/UX এবং কনটেন্ট ক্রিয়েশন নিয়ে কাজ করছি। আমার ইউটিউব চ্যানেলে ১০০+ টিউটোরিয়াল রয়েছে।</p>
+            </div>
+            <div class="about-image" data-aos="fade-left">
+                <div class="profile-frame">
+                    <img src="assets/images/profile.jpg" alt="ProCoderBD" />
+                    <div class="badge">Available for Work</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey -->
+    <section class="journey">
+        <h2 class="section-title" data-aos="fade-up">আমার যাত্রা</h2>
+        <div class="timeline" id="timeline">
+            <div class="timeline-item" data-year="2019">
+                <div class="timeline-content">
+                    <h3>ওয়েব ডেভেলপমেন্ট শুরু</h3>
+                    <div class="date">২০১৯</div>
+                    <p>HTML, CSS, JavaScript শিখে প্রথম ওয়েবসাইট তৈরি করি।</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item" data-year="2020">
+                <div class="timeline-content">
+                    <h3>ইউটিউব চ্যানেল শুরু</h3>
+                    <div class="date">২০২০</div>
+                    <p>ProCoderBD চ্যানেলে প্রথম টিউটোরিয়াল আপলোড।</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item" data-year="2021">
+                <div class="timeline-content">
+                    <h3>প্রথম ফ্রিল্যান্স প্রজেক্ট</h3>
+                    <div class="date">২০২১</div>
+                    <p>একটি E-commerce সাইট তৈরি করে প্রথম আয়।</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item" data-year="2023">
+                <div class="timeline-content">
+                    <h3>১০,০০০ সাবস্ক্রাইবার</h3>
+                    <div class="date">২০২৩</div>
+                    <p>ইউটিউবে ১০K+ সাবস্ক্রাইবার অর্জন।</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Skills -->
+<section class="skills-section">
+    <h2 class="section-title" data-aos="fade-up">আমার দক্ষতা</h2>
+    <div class="skill-grid">
+        <!-- Adobe Photoshop -->
+        <div class="skill-card" data-aos="zoom-in" data-progress="90">
+            <div class="skill-icon photoshop">
+                <img src="assets/images/ps.jpg" alt="Photoshop" class="skill-logo">
+            </div>
+            <h4>Adobe Photoshop</h4>
+            <div class="progress-container"><div class="progress-bar"></div></div>
+        </div>
+
+        <!-- Adobe Illustrator -->
+        <div class="skill-card" data-aos="zoom-in" data-progress="85">
+            <div class="skill-icon illustrator">
+                <img src="assets/images/ai.png" alt="Illustrator" class="skill-logo">
+            </div>
+            <h4>Adobe Illustrator</h4>
+            <div class="progress-container"><div class="progress-bar"></div></div>
+        </div>
+
+        <!-- Python -->
+        <div class="skill-card" data-aos="zoom-in" data-progress="80">
+            <div class="skill-icon python">
+                <img src="assets/images/py.jpg" alt="Python" class="skill-logo">
+            </div>
+            <h4>Python Scripiting</h4>
+            <div class="progress-container"><div class="progress-bar"></div></div>
+        </div>
+
+        <!-- JavaScript -->
+        <div class="skill-card" data-aos="zoom-in" data-progress="95">
+            <div class="skill-icon js">
+                <img src="assets/images/js.png" alt="JavaScript" class="skill-logo">
+            </div>
+            <h4>JavaScript Scripting</h4>
+            <div class="progress-container"><div class="progress-bar"></div></div>
+        </div>
+
+        <!-- Cybersecurity -->
+        <div class="skill-card" data-aos="zoom-in" data-progress="75">
+            <div class="skill-icon cyber">
+                <img src="assets/images/cyber.png" alt="Cybersecurity" class="skill-logo">
+            </div>
+            <h4>Cybersecurity</h4>
+            <div class="progress-container"><div class="progress-bar"></div></div>
+        </div>
+    </div>
+</section>
+    <!-- CTA -->
+    <section class="cta" id="cta-section">
+        <h2>আমার সাথে কাজ করুন</h2>
+        <p>আপনার প্রজেক্টের জন্য একজন দক্ষ ডেভেলপার খুঁজছেন? আমি রেডি!</p>
+        <a href="contact.html" class="btn btn-primary">
+            <i class="fas fa-envelope"></i> যোগাযোগ করুন
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">ProCoderBD</div>
+            <p>ওয়েব ডেভেলপমেন্ট এবং শিক্ষার জন্য সেরা প্ল্যাটফর্ম</p>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 ProCoderBD. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1200, once: false });
+
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Text Reveal
+        gsap.utils.toArray('.reveal-text').forEach(text => {
+            gsap.fromTo(text, 
+                { opacity: 0, y: 30 },
+                { opacity: 1, y: 0, duration: 1.2, scrollTrigger: { trigger: text, start: "top 80%" } }
+            );
+        });
+
+        // Timeline Line Drawing
+        gsap.to(".timeline::before", {
+            height: "100%",
+            duration: 2,
+            ease: "power2.out",
+            scrollTrigger: { trigger: ".journey", start: "top 50%" },
+            onComplete: () => document.querySelector('.timeline').classList.add('drawn')
+        });
+
+        // Timeline Items
+        gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+            gsap.to(item, {
+                opacity: 1, y: 0, duration: 0.8, delay: i * 0.3,
+                scrollTrigger: { trigger: item, start: "top 80%" }
+            });
+        });
+
+        // Skill Progress
+        gsap.utils.toArray('.skill-card').forEach(card => {
+            const progress = card.getAttribute('data-progress');
+            const bar = card.querySelector('.progress-bar');
+            gsap.to(bar, {
+                width: progress + '%',
+                duration: 2,
+                ease: "elastic.out(1, 0.5)",
+                scrollTrigger: { trigger: card, start: "top 85%" }
+            });
+        });
+
+        // Mouse Parallax (CTA)
+        const cta = document.getElementById('cta-section');
+        cta.addEventListener('mousemove', (e) => {
+            const { offsetX, offsetY } = e;
+            const { offsetWidth, offsetHeight } = cta;
+            const x = (offsetX / offsetWidth - 0.5) * 20;
+            const y = (offsetY / offsetHeight - 0.5) * 20;
+            gsap.to(cta.querySelector('h2'), { x, y, duration: 0.6 });
+            gsap.to(cta.querySelector('p'), { x: -x * 0.5, y: -y * 0.5, duration: 0.6 });
+        });
+    </script>
+</body>
+</html>

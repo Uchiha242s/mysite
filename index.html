@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="আমার পোর্টফোলিও - ওয়েব ডেভেলপার, ডিজাইনার" />
+    <meta name="author" content="আপনার নাম" />
+    <title>আমার পোর্টফোলিও | ওয়েব ডেভেলপার</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6e07f3;
+            --secondary: #ff6b6b;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gradient: linear-gradient(135deg, #6e07f3, #ff6b6b);
+            --shadow: 0 10px 30px rgba(110, 7, 243, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--light); color: var(--dark); overflow-x: hidden; line-height: 1.7; }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(26,26,46,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0; transition: all 0.3s ease; }
+        .navbar.scrolled { background: rgba(26,26,46,0.98); padding: 0.8rem 0; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1400px; margin: auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 2.5rem; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 1.1rem; position: relative; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 0; height: 3px; background: var(--gradient); transition: width 0.3s ease; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: #ff6b6b; }
+        .hamburger { display: none; color: white; font-size: 1.8rem; cursor: pointer; }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding: 0 2rem; position: relative; overflow: hidden; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="80" fill="%236e07f3" opacity="0.1"/><circle cx="800" cy="300" r="120" fill="%23ff6b6b" opacity="0.1"/></svg>'); background-size: cover; animation: float 20s infinite linear; z-index: 0; }
+        @keyframes float { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(-100px, -100px) rotate(360deg); } }
+        .hero-container { max-width: 1400px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+        .hero-content { animation: fadeInLeft 1s ease-out; }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+        .hero-content h1 { font-size: 4.5rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.2; color: var(--dark); }
+        .hero-content h1 span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
+        .hero-content .tagline { font-size: 1.5rem; color: var(--gray); margin-bottom: 1.5rem; font-weight: 400; }
+        .hero-content .description { font-size: 1.2rem; color: #555; margin-bottom: 2rem; max-width: 500px; }
+        .hero-buttons { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+        .btn { padding: 14px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease; font-size: 1.1rem; position: relative; overflow: hidden; }
+        .btn-primary { background: var(--gradient); color: white; box-shadow: var(--shadow); }
+        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(110,7,243,0.3); }
+        .btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-secondary:hover { background: var(--primary); color: white; transform: translateY(-5px); }
+        .social-links { display: flex; gap: 1rem; margin-top: 2rem; }
+        .social-links a { width: 45px; height: 45px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.3rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+        .social-links a:hover { background: var(--gradient); color: white; transform: translateY(-8px); box-shadow: 0 10px 25px rgba(110,7,243,0.2); }
+        .hero-image { position: relative; animation: fadeInRight 1s ease-out; text-align: center; }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        .profile-frame { position: relative; display: inline-block; }
+        .profile-frame img { width: 380px; height: 380px; border-radius: 50%; object-fit: cover; border: 12px solid white; box-shadow: var(--shadow); transition: all 0.5s ease; }
+        .profile-frame:hover img { transform: scale(1.05); box-shadow: 0 20px 40px rgba(110,7,243,0.25); }
+        .floating-badge { position: absolute; bottom: 20px; right: -20px; background: var(--secondary); color: white; padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(255,107,107,0.3); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .stats { display: flex; gap: 2rem; margin-top: 3rem; flex-wrap: wrap; }
+        .stat-item { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: var(--shadow); min-width: 140px; text-align: center; transition: all 0.3s ease; }
+        .stat-item:hover { transform: translateY(-10px); }
+        .stat-number { font-size: 2.5rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem; }
+        .skills-preview { margin-top: 4rem; text-align: center; padding: 2rem 0; }
+        .skills-preview h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--dark); }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+        .skill-tag { background: white; color: var(--primary); padding: 10px 20px; border-radius: 50px; font-weight: 500; font-size: 0.95rem; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+        .skill-tag:hover { background: var(--gradient); color: white; transform: translateY(-5px); }
+
+        /* Middle Section - YouTube & About */
+        .middle-section { padding: 80px 0; background: white; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--dark); position: relative; }
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: var(--gradient); border-radius: 2px; }
+
+        /* YouTube Cards */
+        .youtube-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 4rem; padding: 0 2rem; }
+        .youtube-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.4s ease; cursor: pointer; }
+        .youtube-card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(110,7,243,0.2); }
+        .youtube-card img { width: 100%; height: 180px; object-fit: cover; }
+        .youtube-card-content { padding: 1.5rem; }
+        .youtube-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--dark); }
+        .youtube-card p { font-size: 0.9rem; color: var(--gray); margin-bottom: 1rem; }
+        .youtube-card .channel { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--primary); }
+        .youtube-card .channel i { color: #ff0000; }
+
+        /* About Me Section */
+        .about-me { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: center; }
+        .about-img { position: relative; }
+        .about-img img { width: 100%; max-width: 300px; border-radius: 20px; box-shadow: var(--shadow); }
+        .about-img::before { content: ''; position: absolute; top: -20px; left: -20px; width: 100%; height: 100%; background: var(--gradient); border-radius: 20px; z-index: -1; opacity: 0.2; }
+        .about-content h2 { font-size: 2rem; margin-bottom: 1rem; color: var(--dark); }
+        .about-content p { margin-bottom: 1.5rem; color: #555; }
+        .about-content ul { list-style: none; margin-bottom: 1.5rem; }
+        .about-content ul li { margin-bottom: 0.5rem; font-weight: 500; }
+        .about-content ul li strong { color: var(--primary); }
+
+        /* Articles Section */
+        .articles { padding: 80px 0; background: #f8f9fa; }
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .article-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.4s ease; }
+        .article-card:hover { transform: translateY(-10px); }
+        .article-card img { width: 100%; height: 180px; object-fit: cover; }
+        .article-card-content { padding: 1.5rem; }
+        .article-card h3 { font-size: 1.3rem; margin-bottom: 0.8rem; color: var(--dark); }
+        .article-card p { font-size: 0.95rem; color: var(--gray); margin-bottom: 1rem; }
+        .article-card .read-more { color: var(--primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+        .article-card .read-more:hover { color: var(--secondary); }
+
+        /* Footer */
+        .footer { background: var(--dark); color: white; padding: 3rem 0 1.5rem; text-align: center; }
+        .footer-container { max-width: 1200px; margin: auto; padding: 0 2rem; }
+        .footer-logo { font-size: 2rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-social { display: flex; justify-content: center; gap: 1.5rem; margin: 1.5rem 0; }
+        .footer-social a { color: white; font-size: 1.5rem; transition: all 0.3s ease; }
+        .footer-social a:hover { color: var(--secondary); transform: translateY(-5px); }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: #ccc; text-decoration: none; font-size: 0.95rem; }
+        .footer-links a:hover { color: white; }
+        .footer-copy { font-size: 0.9rem; color: #aaa; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-container, .about-me { grid-template-columns: 1fr; text-align: center; }
+            .hero-content h1 { font-size: 3.5rem; }
+            .profile-frame img { width: 300px; height: 300px; }
+            .about-img img { max-width: 250px; margin: auto; }
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links { position: absolute; top: 100%; left: 0; width: 100%; background: var(--dark); flex-direction: column; padding: 1rem 0; display: none; }
+            .nav-links.active { display: flex; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .profile-frame img { width: 250px; height: 250px; }
+        }
+        /* Skills Grid with Icons */
+.skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.skill-card {
+    background: white;
+    padding: 1.8rem;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 5px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.skill-card:hover::before {
+    transform: scaleX(1);
+}
+
+.skill-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(110,7,243,0.18);
+}
+
+.skill-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: all 0.4s ease;
+}
+
+.skill-card:hover .skill-icon {
+    transform: scale(1.15) rotate(360deg);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* Icon Colors */
+.skill-icon { background: var(--gradient); }
+.illustrator { background: linear-gradient(135deg, #ff9a00, #ff6b6b); }
+.python { background: linear-gradient(135deg, #3776AB, #FFD43B); }
+.js { background: linear-gradient(135deg, #F7DF1E, #323330); }
+.cyber { background: linear-gradient(135deg, #00C853, #1B5E20); }
+
+.skill-card h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.skill-card p {
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+/* Photoshop Logo Specific Style */
+
+/* Photoshop Official Logo Style */
+.photoshop {
+    background: #001d3d !important;
+    padding: 8px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 29, 61, 0.3);
+}
+
+.skill-logo1 {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: all 0.4s ease;
+}
+
+.skill-card:hover .skill-logo1 {
+    transform: scale(1.18) rotate(8deg);
+    filter: drop-shadow(0 0 12px #31A8FF);
+    border-radius: 14px;
+}
+
+/* Adobe Illustrator Official Logo Style */
+.illustrator {
+    background: #2d0b00 !important; /* Deep orange-brown (Ai official) */
+    padding: 8px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(45, 11, 0, 0.3);
+}
+
+.skill-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: all 0.4s ease;
+}
+
+.skill-card:hover .skill-logo {
+    transform: scale(1.18) rotate(8deg);
+    filter: drop-shadow(0 0 12px #FF9A00); /* Ai orange glow */
+    border-radius: 14px;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">ProCoderBD</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active">হোম</a></li>
+                <li><a href="about.html">সম্পর্কে</a></li>
+                <li><a href="projects.html">প্রজেক্ট</a></li>
+                <li><a href="contact.html">যোগাযোগ</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">Menu</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>হ্যালো, আমি <span>ProCoderBD</span></h1>
+                <p class="tagline">ফুল-স্ট্যাক ওয়েব ডেভেলপার & ইউটিউবার</p>
+                <p class="description">
+                    আমি ওয়েব ডেভেলপমেন্ট, UI/UX এবং কনটেন্ট ক্রিয়েশন নিয়ে কাজ করি। 
+                    আমার ইউটিউব চ্যানেলে ১০০+ টিউটোরিয়াল আছে। আপনার প্রজেক্টের জন্য রেডি!
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="projects.html" class="btn btn-primary">
+                        <i class="fas fa-briefcase"></i> প্রজেক্ট দেখুন
+                    </a>
+                    <a href="assets/resume.pdf" class="btn btn-secondary" download>
+                        <i class="fas fa-download"></i> রেজিউমি
+                    </a>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">ইউটিউব ভিডিও</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">প্রজেক্ট</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">সাবস্ক্রাইবার</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="profile-frame">
+                    <img src="assets/images/profile.jpg" alt="ProCoderBD" />
+                    <div class="floating-badge">
+                        <i class="fas fa-check-circle"></i> Available Now
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Preview -->
+   <!-- Skills Section with Animated Icons -->
+<div class="skills-preview" data-aos="fade-up">
+    <h3>আমার দক্ষতা</h3>
+    <div class="skill-grid">
+        <!-- Adobe Photoshop -->
+<!-- Adobe Photoshop with Official Logo -->
+<div class="skill-card" data-aos="zoom-in" data-aos-delay="100">
+    <div class="skill-icon photoshop">
+        <img src="assets/images/ps.jpg" alt="Adobe Photoshop" class="skill-logo1">
+    </div>
+    <h4>Adobe Photoshop</h4>
+    <p>UI/UX ডিজাইন, ইমেজ এডিটিং</p>
+</div>
+
+        <!-- Adobe Illustrator -->
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="100">
+            <div class="skill-icon illustrator">
+                <!-- <i class="fas fa-vector-square"></i> -->
+                 <img src="assets/images/ai.png" alt="Adobe Illustrator" class="skill-logo">
+            </div>
+            <h4>Adobe Illustrator</h4>
+            <p>লোগো, ভেক্টর আর্ট</p>
+        </div>
+
+        <!-- Python -->
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="300">
+            <div class="skill-icon python">
+                <i class="fab fa-python"></i>
+            </div>
+            <h4>Python</h4>
+            <p>অটোমেশন, স্ক্রিপ্টিং</p>
+        </div>
+
+        <!-- JavaScript -->
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="400">
+            <div class="skill-icon js">
+                <i class="fab fa-js-square"></i>
+            </div>
+            <h4>JavaScript</h4>
+            <p>ফ্রন্টএন্ড, ব্যাকএন্ড</p>
+        </div>
+
+        <!-- Cybersecurity -->
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="500">
+            <div class="skill-icon cyber">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h4>Cybersecurity</h4>
+            <p>নেটওয়ার্ক সিকিউরিটি, এথিকাল হ্যাকিং</p>
+        </div>
+    </div>
+</div>
+
+    <!-- Middle Section -->
+    <section class="middle-section">
+
+        <!-- YouTube Videos -->
+        <h2 class="section-title" data-aos="fade-up">আমার ইউটিউব চ্যানেল</h2>
+        <div class="youtube-cards">
+            <div class="youtube-card" data-aos="fade-up" data-aos-delay="100">
+                <img src="assets/images/yt1.jpg" alt="WP Theme">
+                <div class="youtube-card-content">
+                    <h3>WordPress Theme Development</h3>
+                    <p>কিভাবে শুরু থেকে একটি কাস্টম ওয়ার্ডপ্রেস থিম তৈরি করবেন।</p>
+                    <div class="channel"><i class="fab fa-youtube"></i> ProCoderBD</div>
+                </div>
+            </div>
+            <div class="youtube-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="assets/images/yt2.jpg" alt="Remote Job">
+                <div class="youtube-card-content">
+                    <h3>রিমোট জবে কিভাবে আবেদন করবেন</h3>
+                    <p>ফ্রিল্যান্সিং এবং রিমোট জবের জন্য সঠিক গাইডলাইন।</p>
+                    <div class="channel"><i class="fab fa-youtube"></i> ProCoderBD</div>
+                </div>
+            </div>
+            <div class="youtube-card" data-aos="fade-up" data-aos-delay="300">
+                <img src="assets/images/yt3.jpg" alt="Ecommerce">
+                <div class="youtube-card-content">
+                    <h3>ই-কমার্স ওয়েবসাইট তৈরি</h3>
+                    <p>PHP + MySQL দিয়ে সম্পূর্ণ শপিং সাইট।</p>
+                    <div class="channel"><i class="fab fa-youtube"></i> ProCoderBD</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Me -->
+        <div class="about-me" data-aos="fade-up">
+            <div class="about-img">
+                <img src="assets/images/profile.jpg" alt="About Me" />
+            </div>
+            <div class="about-content">
+                <h2>আমার সম্পর্কে কিছু কথা</h2>
+                <p>আমি একজন প্যাশনেট ওয়েব ডেভেলপার এবং কনটেন্ট ক্রিয়েটর। গত ৫ বছর ধরে ওয়েব ডেভেলপমেন্টে কাজ করছি এবং আমার ইউটিউব চ্যানেলে ১০০+ টিউটোরিয়াল আপলোড করেছি।</p>
+                <p>আমার লক্ষ্য হলো বাংলায় ফ্রি শিক্ষা ছড়িয়ে দেওয়া। আমি ফ্রিল্যান্সিং, রিমোট জব এবং ওয়েব ডেভেলপমেন্ট নিয়ে কাজ করি।</p>
+                <ul>
+                    <li><strong>নাম:</strong> ProCoderBD</li>
+                    <li><strong>পেশা:</strong> ওয়েব ডেভেলপার, ইউটিউবার</li>
+                    <li><strong>অভিজ্ঞতা:</strong> ৫+ বছর</li>
+                    <li><strong>ইমেইল:</strong> procoderbd@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Articles -->
+        <div class="articles">
+            <h2 class="section-title" data-aos="fade-up">জনপ্রিয় লেখাগুলো</h2>
+            <div class="article-grid">
+                <div class="article-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="assets/images/article1.jpg" alt="2024 Job">
+                    <div class="article-card-content">
+                        <h3>২০২৪ সালে ওয়েব ডেভেলপারদের চাকরি কেমন?</h3>
+                        <p>বর্তমান বাজারে ওয়েব ডেভেলপারদের সুযোগ এবং চ্যালেঞ্জ।</p>
+                        <a href="#" class="read-more">আরও পড়ুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="article-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="assets/images/article2.jpg" alt="Remote Job">
+                    <div class="article-card-content">
+                        <h3>রিমোট জবে সফল হওয়ার উপায়</h3>
+                        <p>কিভাবে ফ্রিল্যান্সিং প্ল্যাটফর্মে কাজ পাবেন।</p>
+                        <a href="#" class="read-more">আরও পড়ুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="article-card" data-aos="fade-up" data-aos-delay="300">
+                    <img src="assets/images/article3.jpg" alt="Skill">
+                    <div class="article-card-content">
+                        <h3>যে স্কিলগুলো আপনার লাগবেই</h3>
+                        <p>ওয়েব ডেভেলপমেন্টে সফল হওয়ার জন্য প্রয়োজনীয় দক্ষতা।</p>
+                        <a href="#" class="read-more">আরও পড়ুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">ProCoderBD</div>
+            <p>ওয়েব ডেভেলপমেন্ট এবং শিক্ষার জন্য সেরা প্ল্যাটফর্ম</p>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">হোম</a>
+                <a href="about.html">সম্পর্কে</a>
+                <a href="projects.html">প্রজেক্ট</a>
+                <a href="contact.html">যোগাযোগ</a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 ProCoderBD. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Typing Effect
+        const tagline = document.querySelector('.tagline');
+        const text = "ফুল-স্ট্যাক ওয়েব ডেভেলপার & ইউটিউবার";
+        let i = 0;
+        function typeWriter() {
+            if (i < text.length) {
+                tagline.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 60);
+            }
+        }
+        setTimeout(typeWriter, 600);
+    </script>
+</body>
+</html>
